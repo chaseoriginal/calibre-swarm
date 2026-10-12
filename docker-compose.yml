@@ -1,0 +1,54 @@
+x-base: &base
+  restart: unless-stopped
+  networks:
+    - calibre-swarm_default
+
+services:
+  calibre:
+    <<: *base
+    image: lscr.io/linuxserver/calibre:latest
+    container_name: ${CNAME}
+    user: ${PUID}:${PGID}
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      - TZ=${TZ}
+      - PASSWORD=${PASSWORD:-}
+      - CLI_ARGS=${CLI_ARGS:-}
+    volumes:
+      - calibre.config:/config
+      - calibre.db:/db
+      - /media/Multimedia/Books:/books
+      - /media/Multimedia/Incoming:/downloads
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: host
+      - target: 8082
+        published: 8082
+        protocol: tcp
+        mode: host
+      - target: 8181
+        published: 8181
+        protocol: tcp
+        mode: host
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.deployment.target.calibre == true
+      restart_policy:
+        condition: on-failure
+
+volumes:
+  calibre.config:
+    name: calibre-swarm.config
+  calibre.db:
+    name: calibre-swarm.db
+
+networks:
+  calibre-swarm_default:
+    external: true
+    name: calibre-swarm_default

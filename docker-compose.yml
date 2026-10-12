@@ -16,8 +16,8 @@ services:
       - PASSWORD=${PASSWORD:-}
       - CLI_ARGS=${CLI_ARGS:-}
     volumes:
-      - /var/lib/docker/volumes/calibre-swarm/config:/config
-      - /var/lib/docker/volumes/calibre-swarm/db:/db
+      - calibre-swarm_config:/config
+      - calibre-swarm_db:/db
       - /media/Multimedia/Books:/books
       - /media/Multimedia/Incoming:/downloads
     ports:

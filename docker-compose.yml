@@ -16,8 +16,8 @@ services:
       - PASSWORD=${PASSWORD:-}
       - CLI_ARGS=${CLI_ARGS:-}
     volumes:
-      - calibre.config:/config
-      - calibre.db:/db
+      - /var/lib/docker/volumes/calibre-swarm/config:/config
+      - /var/lib/docker/volumes/calibre-swarm/db:/db
       - /media/Multimedia/Books:/books
       - /media/Multimedia/Incoming:/downloads
     ports:
@@ -41,12 +41,6 @@ services:
           - node.labels.deployment.target.calibre == true
       restart_policy:
         condition: on-failure
-
-volumes:
-  calibre.config:
-    name: calibre-swarm.config
-  calibre.db:
-    name: calibre-swarm.db
 
 networks:
   calibre-swarm_default:

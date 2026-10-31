@@ -1,6 +1,6 @@
 services:
   calibre:
-    image: lscr.io/linuxserver/calibre:latest
+    image: linuxserver/calibre:latest
     container_name: calibre-swarm
     security_opt:
     - seccomp:unconfined
@@ -28,7 +28,7 @@ services:
     deploy:
       placement:
         constraints:
-        - node.labels.deployment.target.calibre == true
+        - node.role==manager
       restart_policy:
         condition: on-failure
 volumes:

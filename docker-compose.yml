@@ -1,6 +1,6 @@
 services:
   calibre:
-    image: linuxserver/calibre:latest
+    image: linuxserver/calibre:v9.18.0-ls431
     container_name: calibre-swarm
     security_opt:
     - seccomp:unconfined
